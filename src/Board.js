@@ -84,7 +84,6 @@
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      var matrixObj = this.attributes; // store matrix as an object
       var matrixArr = this.rows(); // store matrix as row of rows
       for (var i = 0; i < matrixArr.length; i++) {
         var row = matrixArr[i];
@@ -111,6 +110,23 @@
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      var matrixArr = this.rows(); // store matrix as row of rows
+      var counterObj = {};
+      for (var i = 0; i < matrixArr.length; i++) { // i will represent column index
+        var row = matrixArr[i];
+        for (var j = 0; j < row.length; j++) {
+          if (counterObj[j] === undefined && row[j] !== 0) {
+            counterObj[j] = 1;
+          } else {
+            counterObj[j]++;
+          }
+        }
+      }
+      for (var key in counterObj) {
+        if (counterObj[key] > 1) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
