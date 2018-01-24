@@ -84,6 +84,18 @@
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
+      var matrixObj = this.attributes; // store matrix as an object
+      var matrixArr = this.rows(); // store matrix as row of rows
+      for (var i = 0; i < matrixArr.length; i++) {
+        var row = matrixArr[i];
+        var sum = 0;
+        for (var j = 0; j < row.length; j++) {
+          sum += row[j];
+          if (sum > 1) {
+            return true;
+          }
+        }
+      }
       return false; // fixme
     },
 
