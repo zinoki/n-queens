@@ -79,20 +79,23 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      var matrixArr = this.rows();
+      var sum = 0;
+      for (var i = 0; i < matrixArr[rowIndex].length; i++) {
+        sum += matrixArr[rowIndex][i];
+      }
+      if (sum > 1) {
+        return true;
+      }
+      return false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
       var matrixArr = this.rows(); // store matrix as row of rows
       for (var i = 0; i < matrixArr.length; i++) {
-        var row = matrixArr[i];
-        var sum = 0;
-        for (var j = 0; j < row.length; j++) {
-          sum += row[j];
-          if (sum > 1) {
-            return true;
-          }
+        if (this.hasRowConflictAt(i, matrixArr)) {
+          return true;
         }
       }
       return false; // fixme
@@ -105,25 +108,28 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      var matrixArr = this.rows();
+      var sum = 0;
+      
+      for (var i = 0; i < matrixArr.length; i++) {
+        var row = matrixArr[i];
+        if (row[colIndex] === 1) {
+          sum++;
+        }
+      }
+      
+      if (sum > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
       var matrixArr = this.rows(); // store matrix as row of rows
-      var counterObj = {};
-      for (var i = 0; i < matrixArr.length; i++) { // i will represent column index
-        var row = matrixArr[i];
-        for (var j = 0; j < row.length; j++) {
-          if (counterObj[j] === undefined && row[j] !== 0) {
-            counterObj[j] = 1;
-          } else {
-            counterObj[j]++;
-          }
-        }
-      }
-      for (var key in counterObj) {
-        if (counterObj[key] > 1) {
+      
+      for (var i = 0; i < matrixArr.length; i++) {
+        if (this.hasColConflictAt(i)) {
           return true;
         }
       }
