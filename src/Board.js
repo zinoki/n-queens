@@ -142,12 +142,40 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+    hasMajorDiagonalConflictAt: function(colNumber, rowNumber) {
+      // given an index, checks following rows for instances of 1 by targeting 
+      // index + 1 for every following row 
+      var matrixArr = this.rows();
+      colNumber = colNumber + 1;
+      rowNumber = rowNumber + 1;
+      
+      for (var i = rowNumber; i < matrixArr.length; i++) {
+        if (matrixArr[i][colNumber] === 1) {
+          
+          return true;
+        }
+        colNumber++;
+      }
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
+    // loop through matrix looking for any instances of 1 and save that location 
+    // and later call hasMajorDiagonalConflictAt using those inputs
+    
     hasAnyMajorDiagonalConflicts: function() {
+      var matrixArr = this.rows();
+
+      for (var i = 0; i < matrixArr.length; i++) {
+        var row = matrixArr[i];
+        for (var j = 0; j < row.length; j++) {
+          if (row[j] === 1) {
+            if (this.hasMajorDiagonalConflictAt(j, i)) {
+              return true;
+            }
+          }
+        }
+      }
       return false; // fixme
     },
 
