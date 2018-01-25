@@ -185,14 +185,37 @@
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+    hasMinorDiagonalConflictAt: function(colNumber, rowNumber) {
+      var matrixArr = this.rows();
+      colNumber = colNumber + 1;
+      rowNumber = rowNumber - 1;
+      
+      
+      for (var i = rowNumber; i >= 0; i--) {
+        if (matrixArr[i][colNumber] === 1) {
+          return true;
+        }
+        colNumber++;
+      }
       return false; // fixme
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      var matrixArr = this.rows();
+
+      for (var i = 0; i < matrixArr.length; i++) {
+        var row = matrixArr[i];
+        for (var j = 0; j < row.length; j++) {
+          if (row[j] === 1) {
+            if (this.hasMinorDiagonalConflictAt(j, i)) {
+              return true;
+            }
+          }
+        }
+      }
       return false; // fixme
-    }
+    },
 
     /*--------------------  End of Helper Functions  ---------------------*/
 
