@@ -146,15 +146,12 @@
       // given an index, checks following rows for instances of 1 by targeting 
       // index + 1 for every following row 
       var matrixArr = this.rows();
-      colNumber = colNumber + 1;
-      rowNumber = rowNumber + 1;
-      
-      for (var i = rowNumber; i < matrixArr.length; i++) {
-        if (matrixArr[i][colNumber] === 1) {
-          
+      while (colNumber > 0 && rowNumber > 0) {
+        if (matrixArr[rowNumber - 1][colNumber - 1] === 1) {
           return true;
         }
-        colNumber++;
+        colNumber--;
+        rowNumber--;
       }
       return false; // fixme
     },
@@ -215,6 +212,16 @@
         }
       }
       return false; // fixme
+    },
+    hasNoQueenConflicts: function(colNum, rowNum) {
+      if (!(this.hasMinorDiagonalConflictAt(colNum, rowNum) || 
+          this.hasMajorDiagonalConflictAt(colNum, rowNum) || 
+          this.hasColConflictAt(colNum) || 
+          this.hasRowConflictAt(rowNum))) {
+        return true;
+      } else {
+        return false;
+      }
     },
 
     /*--------------------  End of Helper Functions  ---------------------*/
